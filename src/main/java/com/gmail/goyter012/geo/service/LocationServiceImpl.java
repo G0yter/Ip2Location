@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class LocationServiceImpl implements LocationSrervice{
@@ -28,9 +30,20 @@ public class LocationServiceImpl implements LocationSrervice{
 
     //conversion canonicalIP to decimal form
     @Override
-    public Long convertFromCanonicalIpToIpDigit(String ip) {
+    public Long convertFromCanonicalIpToIpDigit(String ip){
         String[] s = ip.split("\\.");
-        return (long)(Integer.valueOf(s[0])*Math.pow(2,24) + Integer.valueOf(s[1])*Math.pow(2,16) + Integer.valueOf(s[2])*Math.pow(2,8) + Integer.valueOf(s[3]));
+        long res = 0;
+        for(int i = 0; i < s.length; i++){
+            if(Integer.valueOf(s[i]) < 0 || Integer.valueOf(s[i]) > 255){
+                throw new IllegalArgumentException();
+            }
+        }
+        try {
+            res = (long) (Integer.valueOf(s[0]) * Math.pow(2, 24) + Integer.valueOf(s[1]) * Math.pow(2, 16) + Integer.valueOf(s[2]) * Math.pow(2, 8) + Integer.valueOf(s[3]));
+        }catch (ArrayIndexOutOfBoundsException e){
+            throw new IllegalArgumentException();
+        }
+        return res;
 
     }
 }
