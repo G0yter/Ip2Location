@@ -44,6 +44,7 @@ public class MainController {
         Location loc = locationService.findLocByIpDig(ipDig,ipDig);
         loc.setCanonicalIpv4Representation(ip);
         loc.setIpv4(ipDig);
+
         log.info("Ip was correctly written. Data received ");
         return loc;
         }

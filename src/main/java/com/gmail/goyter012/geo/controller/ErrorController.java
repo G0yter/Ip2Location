@@ -4,9 +4,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+//whitelabel page handling
 @RestController
 @Slf4j
 public class ErrorController implements org.springframework.boot.web.servlet.error.ErrorController {
+
+
 
     @RequestMapping("/error")
     public String handleError(){
@@ -19,5 +22,6 @@ public class ErrorController implements org.springframework.boot.web.servlet.err
     @Override
     public String getErrorPath() {
         return "/error";
+
     }
 }
