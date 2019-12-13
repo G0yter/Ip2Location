@@ -19,15 +19,18 @@ public class MainController {
         this.locationService = locationService;
     }
 
+    //handling /
     @RequestMapping("/")
     public String go(){
         return "Hello There!";
     }
 
+
+    //task performance
     @RequestMapping("/geoip/{ip}")
     public Location getLocByIp(@PathVariable String ip){
         long ipDig = locationService.convertFromCanonicalIpToIpDigit(ip);
-        Location loc = locationService.findLocByIp(ipDig,ipDig);
+        Location loc = locationService.findLocByIpDig(ipDig,ipDig);
         loc.setCanonicalIpv4Representation(ip);
         loc.setIpv4(ipDig);
         return loc;

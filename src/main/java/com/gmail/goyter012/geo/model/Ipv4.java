@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 
+
+// Embedded key for table ip2location
 @Embeddable
 @Data
 public class Ipv4 implements Serializable {

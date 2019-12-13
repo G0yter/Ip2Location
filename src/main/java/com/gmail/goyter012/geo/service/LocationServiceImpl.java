@@ -6,8 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class LocationServiceImpl implements LocationSrervice{
@@ -20,15 +18,15 @@ public class LocationServiceImpl implements LocationSrervice{
     }
 
 
-
-
-
+    //getting location from IP address in decimal form
     @Override
-    public Location findLocByIp(long ipFrom, long ipTo) {
+    public Location findLocByIpDig(long ipFrom, long ipTo) {
         return locationRepo.findLocationByIpv4FromToIpFromLessThanEqualAndIpv4FromToIpToGreaterThanEqual(ipFrom, ipTo);
     }
 
 
+
+    //conversion canonicalIP to decimal form
     @Override
     public Long convertFromCanonicalIpToIpDigit(String ip) {
         String[] s = ip.split("\\.");

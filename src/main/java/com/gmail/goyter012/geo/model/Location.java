@@ -8,6 +8,8 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+
+//Entity of ip2location table
 @Entity
 @Table(name = "ip2location")
 @Data
