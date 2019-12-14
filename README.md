@@ -12,7 +12,7 @@ Launch instructions
             
 4) Change the data in application.properties, pom.xml(settings of flyway plugin) on yours and indicate a right path to the file .csv in migration file(V1__Init_DB.sql)
 5) Build the project mvn clean install
-6) Run IT java -jar -jar target/geo-0.0.1-SNAPSHOT.jar
+6) Run IT java -jar target/geo-0.0.1-SNAPSHOT.jar
 
                
 
