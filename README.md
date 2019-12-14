@@ -26,7 +26,7 @@ Launch instructions
                                           INDEX `idx_ip_from_to` (`ip_from`, `ip_to`)
                              ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
             4) LOAD DATA LOCAL
-                                 INFILE 'classpath:/dat/IP2LOCATION-LITE-DB5.CSV'
+                                 INFILE '{CLASSPATH}:/dat/IP2LOCATION-LITE-DB5.CSV'
                                  INTO TABLE
                                  `ip2location_db5`
                                  FIELDS TERMINATED BY ','
