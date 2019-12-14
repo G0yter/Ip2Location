@@ -12,9 +12,9 @@ import java.io.Serializable;
 @Data
 public class Ipv4 implements Serializable {
 
-    @Column(name = "ip_from")
+    @Column(name = "ip_from", columnDefinition = "INTEGER")
     private long ipFrom;
-    @Column(name = "ip_to")
+    @Column(name = "ip_to",columnDefinition = "INTEGER")
     private long ipTo;
 
 

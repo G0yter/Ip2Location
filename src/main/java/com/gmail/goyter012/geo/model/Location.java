@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 //Entity of ip2location table
 @Entity
-@Table(name = "ip2location")
+@Table(name = "ip2location_db5")
 @Data
 public class Location {
 
@@ -20,25 +20,26 @@ public class Location {
     private Ipv4 ipv4FromTo;
 
 
-    @Column(name = "canonicalip")
-    private String canonicalIpv4Representation;
 
     @Column(name = "city_name")
     private String cityName;
 
-    @Column(name = "country_code", columnDefinition = "bpchar(2)", length = 2)
+    @Column(name = "country_code", columnDefinition = "CHAR", length = 2)
     private String countryCode;
 
     @Column(name = "country_name")
     private String countryName;
 
-    private Long ipv4;
 
     @Column(name = "region_name")
     private String regionName;
 
-    private Float latitude;
-    private Float longitude;
+    private Double latitude;
+    private Double longitude;
 
+    @Column(name = "canonicalip")
+    private String canonicalIpv4Representation;
 
+    @Column(name = "ipv4", columnDefinition = "INTEGER")
+    private Long ipv4;
 }

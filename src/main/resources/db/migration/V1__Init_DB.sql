@@ -1,18 +1,26 @@
-CREATE TABLE ip2location(
-                                ip_from bigint NOT NULL,
-                                ip_to bigint NOT NULL,
-                                country_code character(2) NOT NULL,
-                                country_name character varying(64) NOT NULL,
-                                region_name character varying(128) NOT NULL,
-                                city_name character varying(128) NOT NULL,
-                                latitude real NOT NULL,
-                                longitude real NOT NULL,
-                                CONSTRAINT ip2location_pkey PRIMARY KEY (ip_from, ip_to)
+CREATE TABLE `ip2location_db5`(
+                                  `ip_from` INT(10) UNSIGNED,
+                                  `ip_to` INT(10) UNSIGNED,
+                                  `country_code` CHAR(2),
+                                  `country_name` VARCHAR(64),
+                                  `region_name` VARCHAR(128),
+                                  `city_name` VARCHAR(128),
+                                  `latitude` DOUBLE,
+                                  `longitude` DOUBLE,
+                                  `canonicalip` varchar(15) null,
+                                  `ipv4` int(10) null,
+                                  INDEX `idx_ip_from` (`ip_from`),
+                                  INDEX `idx_ip_to` (`ip_to`),
+                                  INDEX `idx_ip_from_to` (`ip_from`, `ip_to`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
-);
+LOAD DATA LOCAL
+    INFILE 'IP2LOCATION-LITE-DB5.CSV'
+    INTO TABLE
+    `ip2location_db5`
+    FIELDS TERMINATED BY ','
+    ENCLOSED BY '"'
+    LINES TERMINATED BY '\r\n'
+    IGNORE 0 LINES;
 
-COPY ip2location FROM '/home/goyter/developing/IdeaProjects/geo/data/IP2LOCATION-LITE-DB5.CSV' WITH CSV QUOTE AS '"';
-
-ALTER TABLE ip2location ADD canonicalip character varying(20) NULL;
-ALTER TABLE ip2location ADD ipv4 bigint NULL;
 
