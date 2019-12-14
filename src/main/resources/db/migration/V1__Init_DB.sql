@@ -1,17 +1,14 @@
 CREATE TABLE `ip2location_db5`(
-                                  `ip_from` INT(10) UNSIGNED,
-                                  `ip_to` INT(10) UNSIGNED,
+                                  `ip_from` INT UNSIGNED,
+                                  `ip_to` INT UNSIGNED,
                                   `country_code` CHAR(2),
                                   `country_name` VARCHAR(64),
-                                  `region_name` VARCHAR(128),
-                                  `city_name` VARCHAR(128),
+                                  `region_name` VARCHAR(64),
+                                  `city_name` VARCHAR(64),
                                   `latitude` DOUBLE,
                                   `longitude` DOUBLE,
-                                  `canonicalip` varchar(15) null,
-                                  `ipv4` int(10) null,
-                                  INDEX `idx_ip_from` (`ip_from`),
-                                  INDEX `idx_ip_to` (`ip_to`),
-                                  INDEX `idx_ip_from_to` (`ip_from`, `ip_to`)
+                                  `canonicalip` VARCHAR(15) null,
+                                  `ipv4` INT UNSIGNED null
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 LOAD DATA LOCAL
@@ -22,3 +19,5 @@ LOAD DATA LOCAL
     ENCLOSED BY '"'
     LINES TERMINATED BY '\r\n'
     IGNORE 0 LINES;
+
+CREATE INDEX idx_ip_from_to ON ip2location_db5(ip_from,ip_to);
