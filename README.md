@@ -9,33 +9,10 @@ Launch instructions
 
             mysql -u {username} -p and make consecutive requests:
             1) CREATE DATABASE ip2location;
-            2) CREATE TABLE `ip2location_db5`(
-                                          `ip_from` INT(10) UNSIGNED,
-                                          `ip_to` INT(10) UNSIGNED,
-                                          `country_code` CHAR(2),
-                                          `country_name` VARCHAR(64),
-                                          `region_name` VARCHAR(128),
-                                          `city_name` VARCHAR(128),
-                                          `latitude` DOUBLE,
-                                          `longitude` DOUBLE,
-                                          `canonicalip` varchar(15) null,
-                                          `ipv4` int(10) null, 
-                                          INDEX `idx_ip_from` (`ip_from`),
-                                          INDEX `idx_ip_to` (`ip_to`),
-                                          INDEX `idx_ip_from_to` (`ip_from`, `ip_to`)
-                             ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-            3) LOAD DATA LOCAL
-                                 INFILE 'IP2LOCATION-LITE-DB5.CSV'
-                                 INTO TABLE
-                                 `ip2location_db5`
-                                 FIELDS TERMINATED BY ','
-                                 ENCLOSED BY '"'
-                                 LINES TERMINATED BY '\r\n'
-                                 IGNORE 0 LINES;
-4) Change the data to yours in application.properties
+            
+4) Change the data in application.properties, pom.xml(settings of flyway plugin) on yours and indicate a right path to the file .csv in migration file(V1__Init_DB.sql)
 5) Build the project mvn clean install
 6) Run IT java -jar -jar target/geo-0.0.1-SNAPSHOT.jar
-7) (PROBLEM with db migration -- mvn flyway:migrate generate exception THE USED COMMAND IS NOT ALLOWED WITH THIS MYSQL VERSION because of line Load Data Local )
 
                
 
@@ -48,35 +25,10 @@ Launch instructions
             chmod u+x scripts/extractor.sh
                                Распаковываем файл:
             ./scripts/extractor.sh
-3) Заходим в СУБД через mySQL WorkBench или через командную строку командой:
+3) Пишем в консоль:
             mysql -u {username} -p и делаем последовательные запросы:
             1) CREATE DATABASE ip2location;
-            2) CREATE TABLE `ip2location_db5`(
-                                                 `ip_from` INT(10) UNSIGNED,
-                                                 `ip_to` INT(10) UNSIGNED,
-                                                 `country_code` CHAR(2),
-                                                 `country_name` VARCHAR(64),
-                                                 `region_name` VARCHAR(128),
-                                                 `city_name` VARCHAR(128),
-                                                 `latitude` DOUBLE,
-                                                 `longitude` DOUBLE,
-                                                 `canonicalip` varchar(15) null,
-                                                 `ipv4` int(10) null, 
-                                                 INDEX `idx_ip_from` (`ip_from`),
-                                                 INDEX `idx_ip_to` (`ip_to`),
-                                                 INDEX `idx_ip_from_to` (`ip_from`, `ip_to`)
-               ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-            3) LOAD DATA LOCAL
-                   INFILE 'IP2LOCATION-LITE-DB5.CSV'
-                   INTO TABLE
-                   `ip2location_db5`
-                   FIELDS TERMINATED BY ','
-                   ENCLOSED BY '"'
-                   LINES TERMINATED BY '\r\n'
-                   IGNORE 0 LINES;
- 
-4) Нужно изменить данные в application.properties на свои               
+            
+4) Нужно изменить данные в application.properties, pom.xml(настройка flyway плагина) на свои, а также указать верный путь к файлу .csv в файле миграции               
 5) Собираем проект : mvn clean install
 6) Запускаем проект: java -jar target/geo-0.0.1-SNAPSHOT.jar
-
-7) (Проблема с миграцией БД - mvn flyway:migrate не работает из-за строки LOAD DATA LOCAL -- the used command is not allowed with this mysql version)                  

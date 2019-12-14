@@ -15,12 +15,10 @@ CREATE TABLE `ip2location_db5`(
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 LOAD DATA LOCAL
-    INFILE 'IP2LOCATION-LITE-DB5.CSV'
+    INFILE '/home/goyter/developing/IdeaProjects/geo/data/IP2LOCATION-LITE-DB5.CSV'
     INTO TABLE
     `ip2location_db5`
     FIELDS TERMINATED BY ','
     ENCLOSED BY '"'
     LINES TERMINATED BY '\r\n'
     IGNORE 0 LINES;
-
-
