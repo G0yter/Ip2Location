@@ -9,7 +9,8 @@ Launch instructions
 
             mysql -u {username} -p and make consecutive requests:
             1) CREATE DATABASE ip2location;
-            2) CREATE TABLE `ip2location_db5`(
+            2) USE ip2location;
+            3) CREATE TABLE `ip2location_db5`(
                                           `ip_from` INT(10) UNSIGNED,
                                           `ip_to` INT(10) UNSIGNED,
                                           `country_code` CHAR(2),
@@ -24,7 +25,7 @@ Launch instructions
                                           INDEX `idx_ip_to` (`ip_to`),
                                           INDEX `idx_ip_from_to` (`ip_from`, `ip_to`)
                              ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-            3) LOAD DATA LOCAL
+            4) LOAD DATA LOCAL
                                  INFILE 'classpath:/dat/IP2LOCATION-LITE-DB5.CSV'
                                  INTO TABLE
                                  `ip2location_db5`
@@ -32,6 +33,8 @@ Launch instructions
                                  ENCLOSED BY '"'
                                  LINES TERMINATED BY '\r\n'
                                  IGNORE 0 LINES;
+                                 
+                                 IN LAST QUERY VARIABLE {CLASSPATH} is the absolute path to the file 
 4) Change the data to yours in application.properties
 5) Build the project mvn clean install
 6) Run IT java -jar -jar target/geo-0.0.1-SNAPSHOT.jar
@@ -51,7 +54,8 @@ Launch instructions
 3) Заходим в СУБД через mySQL WorkBench или через командную строку командой:
             mysql -u {username} -p и делаем последовательные запросы:
             1) CREATE DATABASE ip2location;
-            2) CREATE TABLE `ip2location_db5`(
+            2) USE ip2location;
+            3) CREATE TABLE `ip2location_db5`(
                                                  `ip_from` INT(10) UNSIGNED,
                                                  `ip_to` INT(10) UNSIGNED,
                                                  `country_code` CHAR(2),
@@ -66,14 +70,16 @@ Launch instructions
                                                  INDEX `idx_ip_to` (`ip_to`),
                                                  INDEX `idx_ip_from_to` (`ip_from`, `ip_to`)
                ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-            3) LOAD DATA LOCAL
-                   INFILE 'classpath:/dat/IP2LOCATION-LITE-DB5.CSV'
+            4) LOAD DATA LOCAL
+                   INFILE '{CLASSPATH}/dat/IP2LOCATION-LITE-DB5.CSV'
                    INTO TABLE
                    `ip2location_db5`
                    FIELDS TERMINATED BY ','
                    ENCLOSED BY '"'
                    LINES TERMINATED BY '\r\n'
                    IGNORE 0 LINES;
+                  
+                  В ПОСЛЕДНЕМ ЗАПРОСЕ ПЕРЕМЕННАЯ {CLASSPATH} -- ЭТО АБСОЛЮТНЫЙ ПУТЬ К ФАЙЛУ
  
 4) Нужно изменить данные в application.properties на свои               
 5) Собираем проект : mvn clean install
