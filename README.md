@@ -1,7 +1,7 @@
 Launch instructions
 1) Firstly it is necessary to clone the repository of the project by
     git clone https://github.com/G0yter/Ip2Location.git
-2) Then to extract the archive with DB. It is possible to do that by script in the project, but at first that is necessary to give the rights to execute this script.
+2) Then extract the archive with DB. It is possible to do that by script in the project, but at first that is necessary to give the rights to execute this script.
         Go to the working directory. Write to the console:
             1) chmod u+x scripts/extractor.sh
             2) ./scripts/extractor.sh            
