@@ -38,7 +38,7 @@ Launch instructions
 4) Change the data to yours in application.properties
 5) Build the project mvn clean install
 6) Run IT java -jar -jar target/geo-0.0.1-SNAPSHOT.jar
-7) (PROBLEM with db migration -- mvn flyway:migrate generate exception THE USED COMMAND IS NOT ALLOWED WITH THIS MYSQL VERSION because of line Load Data Local )
+7) (PROBLEM with db migration -- mvn flyway:migrate generates exception THE USED COMMAND IS NOT ALLOWED WITH THIS MYSQL VERSION because of line Load Data Local )
 
                
 
