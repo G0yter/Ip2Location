@@ -2,48 +2,115 @@ package com.gmail.goyter012.geo.service;
 
 import com.gmail.goyter012.geo.model.Location;
 import com.gmail.goyter012.geo.repo.LocationRepo;
-import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
-@RequiredArgsConstructor
-public class LocationServiceImpl implements LocationSrervice{
+@Slf4j
+public class LocationServiceImpl implements LocationService{
 
-    private LocationRepo locationRepo;
+    private final LocationRepo locationRepo;
 
     @Autowired
-    public void setLocationRepo(LocationRepo locationRepo) {
+    public LocationServiceImpl(LocationRepo locationRepo) {
         this.locationRepo = locationRepo;
     }
 
+    // get Location from Ip
+    @Override
+    public Location getLocation(String ip) {
+        Long ipDig = convertFromCanonicalIpToIpDigit(ip);
+
+        if(ipDig == 0) {
+            log.error("Invalid Ip entered!");
+            return new Location();
+        }
+        Location loc = findLocationByIpDigit(ipDig,ipDig);
+
+        loc.setCanonicalIpv4Representation(makeCanonicalIp(ip));
+        loc.setIpv4(ipDig);
+
+        log.info("Data received!");
+        return loc;
+    }
+
+    //conversion canonicalIP to decimal form
+    @Override
+    public Long convertFromCanonicalIpToIpDigit(String ip){
+
+        if(!isIpValid(ip)) return (long)0;
+
+        long res = 0;
+        String[] s = ip.split("\\.");
+
+        for(int i = 0; i < s.length; i++){
+            res+= Integer.parseInt(s[i]) * Math.pow(2,24 - (i * 8));
+        }
+
+        return res;
+    }
 
     //getting location from IP address in decimal form
     @Override
-    public Location findLocByIpDig(long ipFrom, long ipTo) {
+    public Location findLocationByIpDigit(long ipFrom, long ipTo) {
         return locationRepo.findLocationByIpv4FromToIpFromLessThanEqualAndIpv4FromToIpToGreaterThanEqual(ipFrom, ipTo);
     }
 
 
 
-    //conversion canonicalIP to decimal form
-    @Override
-    public Long convertFromCanonicalIpToIpDigit(String ip){
+
+
+    //ip validation method
+    private boolean isIpValid(String ip){
+        if(ip == null) return false;    // null check
+        if(!ip.contains(".")) return false; // dot check
+
         String[] s = ip.split("\\.");
-        long res = 0;
-        for(int i = 0; i < s.length; i++){
-            if(Integer.valueOf(s[i]) < 0 || Integer.valueOf(s[i]) > 255){
-                throw new IllegalArgumentException();
+        if(s.length > 4) return false;
+
+        for (String value : s) {  // ip validation
+            try {
+                int digit = Integer.parseInt(value.trim());
+                if (digit < 0 || digit > 255) {
+                    throw new IllegalArgumentException();
+                }
+            } catch (IllegalArgumentException e) {
+                return false;
             }
         }
-        try {
-            res = (long) (Integer.valueOf(s[0]) * Math.pow(2, 24) + Integer.valueOf(s[1]) * Math.pow(2, 16) + Integer.valueOf(s[2]) * Math.pow(2, 8) + Integer.valueOf(s[3]));
-        }catch (ArrayIndexOutOfBoundsException e){
-            throw new IllegalArgumentException();
-        }
-        return res;
+
+        return true;
 
     }
+
+    private String makeCanonicalIp(String ip){
+        if(countCharsInString(ip,'.') == 3){    // in canonical ip it has to be 3 dots
+
+            if(ip.charAt(ip.length()-1)!='.'){     // last index must be digit
+                return ip;
+            }else {
+                return ip + "0";
+            }
+
+        }
+
+        StringBuilder sb = new StringBuilder(ip);
+
+        while (countCharsInString(sb.toString(), '.') != 3 || sb.charAt(sb.length() - 1) == '.') {
+            if (!(sb.charAt(sb.length() - 1) == '.')) {
+                sb.append(".0");
+            }else{
+            sb.append("0");
+            }
+        }
+        return sb.toString();
+
+    }
+
+
+    private long countCharsInString(String string, char c){
+        return string.chars().filter(n -> n == c).count();
+    }
+
 }
