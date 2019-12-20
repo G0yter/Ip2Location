@@ -13,6 +13,7 @@ public class MainController {
 
     private final LocationService locationService;
 
+
     @Autowired
     public MainController(LocationService locationService) {
         this.locationService = locationService;

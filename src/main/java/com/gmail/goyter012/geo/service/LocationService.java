@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface LocationService{
 
     Location findLocationByIpDigit(long ipFrom, long ipTo);
-    Long convertFromCanonicalIpToIpDigit(String ip);
+    Long convertFromIpToIpDigit(String ip);
     Location getLocation(String ip);
     LocationDto getLocationDto(Location location);
     String makeCanonicalIp(String ip);

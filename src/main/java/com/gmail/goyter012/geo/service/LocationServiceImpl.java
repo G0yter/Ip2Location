@@ -24,7 +24,7 @@ public class LocationServiceImpl implements LocationService{
     // get Location from Ip
     @Override
     public Location getLocation(String ip) {
-        Long ipDig = convertFromCanonicalIpToIpDigit(ip);
+        Long ipDig = convertFromIpToIpDigit(ip);
 
         if(ipDig == 0) {
             log.error("Invalid Ip entered!");
@@ -41,9 +41,9 @@ public class LocationServiceImpl implements LocationService{
 
     //conversion canonicalIP to decimal form
     @Override
-    public Long convertFromCanonicalIpToIpDigit(String ip){
+    public Long convertFromIpToIpDigit(String ip){
 
-        if(!isIpValid(ip)) return (long)0;
+        if(!isIpValid(ip)) return (long)0;            //return 0 if Ip is not valid
 
         long res = 0;
         String[] s = ip.split("\\.");
