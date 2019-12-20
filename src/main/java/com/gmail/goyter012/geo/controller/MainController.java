@@ -1,6 +1,7 @@
 package com.gmail.goyter012.geo.controller;
 
 import com.gmail.goyter012.geo.model.Location;
+import com.gmail.goyter012.geo.model.LocationDto;
 import com.gmail.goyter012.geo.service.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,9 +27,10 @@ public class MainController {
 
     //task performance
     @RequestMapping("/geoip/{ip}")
-    public Location getLocationByIp(@PathVariable String ip){
-        return locationService.getLocation(ip);
-        }
+    public LocationDto getLocationByIp(@PathVariable String ip){
+        return locationService.getLocationDto(locationService.getLocation(ip));
+
+    }
 
 
 }

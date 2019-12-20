@@ -1,8 +1,10 @@
 package com.gmail.goyter012.geo.service;
 
 import com.gmail.goyter012.geo.model.Location;
+import com.gmail.goyter012.geo.model.LocationDto;
 import com.gmail.goyter012.geo.repo.LocationRepo;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +13,12 @@ import org.springframework.stereotype.Service;
 public class LocationServiceImpl implements LocationService{
 
     private final LocationRepo locationRepo;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public LocationServiceImpl(LocationRepo locationRepo) {
+    public LocationServiceImpl(LocationRepo locationRepo, ModelMapper modelMapper) {
         this.locationRepo = locationRepo;
+        this.modelMapper = modelMapper;
     }
 
     // get Location from Ip
@@ -58,9 +62,6 @@ public class LocationServiceImpl implements LocationService{
     }
 
 
-
-
-
     //ip validation method
     private boolean isIpValid(String ip){
         if(ip == null) return false;    // null check
@@ -84,7 +85,8 @@ public class LocationServiceImpl implements LocationService{
 
     }
 
-    private String makeCanonicalIp(String ip){
+    @Override
+    public String makeCanonicalIp(String ip){
         if(countCharsInString(ip,'.') == 3){    // in canonical ip it has to be 3 dots
 
             if(ip.charAt(ip.length()-1)!='.'){     // last index must be digit
@@ -108,9 +110,14 @@ public class LocationServiceImpl implements LocationService{
 
     }
 
-
     private long countCharsInString(String string, char c){
         return string.chars().filter(n -> n == c).count();
     }
 
+
+    @Override
+    public LocationDto getLocationDto(Location location) {
+        return modelMapper.map(location,LocationDto.class);
+
+    }
 }
