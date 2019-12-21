@@ -1,11 +1,13 @@
 package com.gmail.goyter012.geo.service;
 
+import com.gmail.goyter012.geo.exceptions.BadIpException;
 import com.gmail.goyter012.geo.model.Location;
 import com.gmail.goyter012.geo.model.LocationDto;
 import com.gmail.goyter012.geo.repo.LocationRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,12 +25,12 @@ public class LocationServiceImpl implements LocationService{
 
     // get Location from Ip
     @Override
-    public Location getLocation(String ip) {
+    public ResponseEntity<LocationDto> getLocation(String ip) {
         Long ipDig = convertFromIpToIpDigit(ip);
 
         if(ipDig == 0) {
             log.error("Invalid Ip entered!");
-            return new Location();
+            throw new BadIpException("404 BAD REQUEST. IP IS NOT CORRECT!");
         }
         Location loc = findLocationByIpDigit(ipDig,ipDig);
 
@@ -36,8 +38,21 @@ public class LocationServiceImpl implements LocationService{
         loc.setIpv4(ipDig);
 
         log.info("Data received!");
-        return loc;
+        return ResponseEntity.ok(getLocationDto(loc));
     }
+
+    ////////////////////////////////// DATABASE methods
+
+
+    //getting location from IP address in decimal form
+    @Override
+    public Location findLocationByIpDigit(long ipFrom, long ipTo) {
+        return locationRepo.findLocationByIpv4FromToIpFromLessThanEqualAndIpv4FromToIpToGreaterThanEqual(ipFrom, ipTo);
+    }
+
+
+
+    //////////////////////////////////  IP CONVERSIONS
 
     //conversion canonicalIP to decimal form
     @Override
@@ -55,11 +70,7 @@ public class LocationServiceImpl implements LocationService{
         return res;
     }
 
-    //getting location from IP address in decimal form
-    @Override
-    public Location findLocationByIpDigit(long ipFrom, long ipTo) {
-        return locationRepo.findLocationByIpv4FromToIpFromLessThanEqualAndIpv4FromToIpToGreaterThanEqual(ipFrom, ipTo);
-    }
+
 
 
     //ip validation method
@@ -114,6 +125,8 @@ public class LocationServiceImpl implements LocationService{
         return string.chars().filter(n -> n == c).count();
     }
 
+
+    ///////////////////////////////// DTO CONVERTING
 
     @Override
     public LocationDto getLocationDto(Location location) {
