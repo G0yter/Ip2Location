@@ -1,7 +1,6 @@
 package com.gmail.goyter012.geo.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -15,11 +14,8 @@ import javax.persistence.Table;
 @Data
 public class Location {
 
-    @JsonIgnore
     @EmbeddedId
     private Ipv4 ipv4FromTo;
-
-
 
     @Column(name = "city_name")
     private String cityName;
@@ -30,11 +26,13 @@ public class Location {
     @Column(name = "country_name")
     private String countryName;
 
-
     @Column(name = "region_name")
     private String regionName;
 
+    @Column(name = "latitude")
     private Double latitude;
+
+    @Column(name = "longitude")
     private Double longitude;
 
     @Column(name = "canonicalip")

@@ -14,7 +14,7 @@ public class ErrorController implements org.springframework.boot.web.servlet.err
     @RequestMapping("/error")
     public String handleError(){
         log.error("Incorrect request!");
-        return "This mapping is not correct!\n" +
+        return "THIS MAPPING IS NOT CORRECT!\n" +
                 "Type to the address line /geoip/{ip} to know the Location with the help of IP";
     }
 
@@ -22,6 +22,5 @@ public class ErrorController implements org.springframework.boot.web.servlet.err
     @Override
     public String getErrorPath() {
         return "/error";
-
     }
 }
